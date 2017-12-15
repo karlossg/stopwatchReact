@@ -1,17 +1,3 @@
-const FormattedClockwatch = props => {
-  return (
-    <div>
-      {pad0(props.time.minutes)}:{pad0(props.time.seconds)}:{pad0(Math.floor(props.time.miliseconds))}
-    </div>
-  );
-};
-
-const pad0 = value => {
-  let result = value.toString();
-
-  return result.length < 2 ? '0' + result : result;
-};
-
 class Clockwatch extends React.Component {
   constructor(props) {
     super(props);
@@ -115,6 +101,14 @@ class Clockwatch extends React.Component {
     });
   };
 
+  clear = () => {
+    this.setState(prevState => {
+      return {
+        times: []
+      };
+    });
+  };
+
   render() {
     return (
       <div>
@@ -123,14 +117,34 @@ class Clockwatch extends React.Component {
         <FormattedClockwatch time={this.state.data} />
         <button onClick={this.reset}>reset</button>
         <button onClick={this.save}>save</button>
-        <TimeList times={times} />
+        <TimeList times={this.state.times} />
+        <button onClick={this.clear}>clear</button>
       </div>
     );
   }
 }
 
+const FormattedClockwatch = props => {
+  return (
+    <div>
+      {pad0(props.time.minutes)}:{pad0(props.time.seconds)}:{pad0(Math.floor(props.time.miliseconds))}
+    </div>
+  );
+};
+
+const pad0 = value => {
+  const result = value.toString();
+  return result.length < 2 ? '0' + result : result;
+};
+
 const TimeList = props => {
-  console.log(props);
+  const times = props.times;
+
+  return (
+    <div>
+      <ul>{times.map(time => <li>{time}</li>)}</ul>
+    </div>
+  );
 };
 
 const App = () => {
