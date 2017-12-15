@@ -17,6 +17,7 @@ class Clockwatch extends React.Component {
     super(props);
     this.state = {
       running: false,
+      times: [],
       data: {
         minutes: 0,
         seconds: 0,
@@ -102,6 +103,18 @@ class Clockwatch extends React.Component {
     });
   };
 
+  save = () => {
+    const time = `${pad0(this.state.data.minutes)}:${pad0(this.state.data.seconds)}:${pad0(
+      Math.floor(this.state.data.miliseconds)
+    )}`;
+
+    this.setState(prevState => {
+      return {
+        times: this.state.times.concat([time])
+      };
+    });
+  };
+
   render() {
     return (
       <div>
@@ -109,35 +122,21 @@ class Clockwatch extends React.Component {
         <button onClick={this.stop}>stop</button>
         <FormattedClockwatch time={this.state.data} />
         <button onClick={this.reset}>reset</button>
-        <button>save</button>
+        <button onClick={this.save}>save</button>
+        <TimeList times={times} />
       </div>
     );
   }
 }
 
-class TimeList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      timeList: []
-    };
-  }
-
-  render() {
-    return (
-      <div>
-        <p> Times Saved: </p>
-        <ul />
-      </div>
-    );
-  }
-}
+const TimeList = props => {
+  console.log(props);
+};
 
 const App = () => {
   return (
     <div>
       <Clockwatch />
-      <TimeList />
     </div>
   );
 };
