@@ -124,17 +124,17 @@ class Clockwatch extends React.Component {
   }
 }
 
+const pad0 = value => {
+  const result = value.toString();
+  return result.length < 2 ? '0' + result : result;
+};
+
 const FormattedClockwatch = props => {
   return (
     <div>
       {pad0(props.time.minutes)}:{pad0(props.time.seconds)}:{pad0(Math.floor(props.time.miliseconds))}
     </div>
   );
-};
-
-const pad0 = value => {
-  const result = value.toString();
-  return result.length < 2 ? '0' + result : result;
 };
 
 const TimeList = props => {
