@@ -66,7 +66,7 @@ class Clockwatch extends React.Component {
         data: {
           minutes: prevState.data.minutes,
           seconds: prevState.data.seconds + 1,
-          miliseconds: prevState.data.miliseconds + 1
+          miliseconds: prevState.data.miliseconds
         }
       };
     });
