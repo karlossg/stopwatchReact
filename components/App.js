@@ -7,8 +7,9 @@ const FormattedClockwatch = props => {
 };
 
 const pad0 = value => {
-  let result = value;
-  return result.length < 2 ? (result = '0' + result) : result;
+  let result = value.toString();
+
+  return result.length < 2 ? '0' + result : result;
 };
 
 class Clockwatch extends React.Component {
@@ -18,7 +19,7 @@ class Clockwatch extends React.Component {
       running: false,
       data: {
         minutes: 0,
-        seconds: 0,
+        seconds: 55,
         miliseconds: 0
       }
     };
@@ -66,7 +67,7 @@ class Clockwatch extends React.Component {
         data: {
           minutes: prevState.data.minutes,
           seconds: prevState.data.seconds + 1,
-          miliseconds: prevState.data.miliseconds
+          miliseconds: 0
         }
       };
     });
@@ -77,7 +78,7 @@ class Clockwatch extends React.Component {
       return {
         data: {
           minutes: prevState.data.minutes + 1,
-          seconds: prevState.data.seconds,
+          seconds: 0,
           miliseconds: prevState.data.miliseconds
         }
       };
