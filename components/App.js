@@ -19,7 +19,7 @@ class Clockwatch extends React.Component {
       running: false,
       data: {
         minutes: 0,
-        seconds: 55,
+        seconds: 0,
         miliseconds: 0
       }
     };
@@ -85,13 +85,30 @@ class Clockwatch extends React.Component {
     });
   };
 
+  stop = () => {
+    this.setState({
+      running: false
+    });
+    clearInterval(this.watch);
+  };
+
+  reset = () => {
+    this.setState({
+      data: {
+        minutes: 0,
+        seconds: 0,
+        miliseconds: 0
+      }
+    });
+  };
+
   render() {
     return (
       <div>
         <button onClick={this.start}>start</button>
-        <button>stop</button>
+        <button onClick={this.stop}>stop</button>
         <FormattedClockwatch time={this.state.data} />
-        <button>reset</button>
+        <button onClick={this.reset}>reset</button>
         <button>save</button>
       </div>
     );
