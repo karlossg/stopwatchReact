@@ -1,9 +1,21 @@
-class App extends React.Component {
+const FormattedClockwatch = props => {
+  return (
+    <div>
+      {pad0(props.time.minutes)}:{pad0(props.time.seconds)}:{pad0(Math.floor(props.time.miliseconds))}
+    </div>
+  );
+};
+
+const pad0 = value => {
+  let result = value;
+  return result.length < 2 ? (result = '0' + result) : result;
+};
+
+class Clockwatch extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       running: false,
-      display: display,
       data: {
         minutes: 0,
         seconds: 0,
@@ -12,54 +24,85 @@ class App extends React.Component {
     };
   }
 
-  start() {
+  start = () => {
     if (!this.state.running) {
-      this.running = true;
+      this.setState({
+        running: true
+      });
       this.watch = setInterval(() => this.step(), 10);
     }
-  }
+  };
 
-  step() {
-    if (!this.running) return;
+  step = () => {
+    if (!this.state.running) return;
     this.calculate();
-    this.print();
-  }
+  };
 
-  calculate() {
-    this.times.miliseconds += 1;
-    if (this.times.miliseconds >= 100) {
-      this.times.seconds += 1;
-      this.times.miliseconds = 0;
+  calculate = () => {
+    this.updateMiliseconds();
+    if (this.state.data.miliseconds >= 100) {
+      this.updateSeconds();
     }
-    if (this.times.seconds >= 60) {
-      this.times.minutes += 1;
-      this.times.seconds = 0;
+    if (this.state.data.seconds >= 60) {
+      this.updateMinutes();
     }
-  }
+  };
 
-  pad0(value) {
-    let result = value.toString();
-    if (result.length < 2) {
-      result = '0' + result;
-    }
-    return result;
-  }
+  updateMiliseconds = () => {
+    this.setState(prevState => {
+      return {
+        data: {
+          minutes: prevState.data.minutes,
+          seconds: prevState.data.seconds,
+          miliseconds: prevState.data.miliseconds + 1
+        }
+      };
+    });
+  };
 
-  format(times) {
-    return `${this.pad0(times.minutes)}:${this.pad0(times.seconds)}:${this.pad0(Math.floor(times.miliseconds))}`;
-  }
+  updateSeconds = () => {
+    this.setState(prevState => {
+      return {
+        data: {
+          minutes: prevState.data.minutes,
+          seconds: prevState.data.seconds + 1,
+          miliseconds: prevState.data.miliseconds + 1
+        }
+      };
+    });
+  };
+
+  updateMinutes = () => {
+    this.setState(prevState => {
+      return {
+        data: {
+          minutes: prevState.data.minutes + 1,
+          seconds: prevState.data.seconds,
+          miliseconds: prevState.data.miliseconds
+        }
+      };
+    });
+  };
 
   render() {
     return (
       <div>
-        <button>start</button>
+        <button onClick={this.start}>start</button>
         <button>stop</button>
-        <div>{this.format(this.state.data)}</div>
+        <FormattedClockwatch time={this.state.data} />
         <button>reset</button>
         <button>save</button>
       </div>
     );
   }
+}
+
+function App() {
+  return (
+    <div>
+      <Clockwatch />
+    </div>
+  );
 }
 
 ReactDOM.render(<App />, document.getElementById('app'));
