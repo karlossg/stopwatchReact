@@ -115,12 +115,31 @@ class Clockwatch extends React.Component {
   }
 }
 
-function App() {
+class TimeList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      timeList: []
+    };
+  }
+
+  render() {
+    return (
+      <div>
+        <p> Times Saved: </p>
+        <ul />
+      </div>
+    );
+  }
+}
+
+const App = () => {
   return (
     <div>
       <Clockwatch />
+      <TimeList />
     </div>
   );
-}
+};
 
 ReactDOM.render(<App />, document.getElementById('app'));
