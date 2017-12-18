@@ -111,14 +111,17 @@ class Clockwatch extends React.Component {
 
   render() {
     return (
-      <div>
-        <button onClick={this.start}>start</button>
-        <button onClick={this.stop}>stop</button>
-        <FormattedClockwatch time={this.state.data} />
-        <button onClick={this.reset}>reset</button>
-        <button onClick={this.save}>save</button>
-        <TimeList times={this.state.times} />
-        <button onClick={this.clear}>clear</button>
+      <div className="container">
+        <div>
+          <button onClick={this.start}>start</button>
+          <button onClick={this.stop}>stop</button>
+        </div>
+        <FormattedClockwatch className="stopwatch" time={this.state.data} />
+        <div>
+          <button onClick={this.reset}>reset</button>
+          <button onClick={this.save}>save</button>
+        </div>
+        <TimeList times={this.state.times} clear={this.clear} />
       </div>
     );
   }
@@ -143,6 +146,7 @@ const TimeList = props => {
   return (
     <div>
       <ul>{times.map(time => <li>{time}</li>)}</ul>
+      {times.length > 0 && <button onClick={props.clear}>clear</button>}
     </div>
   );
 };
